@@ -18,9 +18,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/css/**", "/js/**", "/").permitAll()
                         .requestMatchers("/register", "/login").not().authenticated()
-                        .requestMatchers("/category/**", "/product/update/**", "/product/create",
-                                "/product/delete/**", "/product").hasRole("ADMIN")
-                        .requestMatchers("/product/view/**").hasAnyRole("USER", "ADMIN")
+
+//                        .requestMatchers("/category/**", "/product/update/**", "/product/create",
+//                                "/product/delete/**", "/product").hasRole("ADMIN")
+                        .requestMatchers("/product/view/**").hasAnyRole("User", "Admin")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -32,10 +33,10 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .permitAll()
-                )
-                .exceptionHandling(exceptions -> exceptions
-                        .accessDeniedPage("/access-denied")
                 );
+//                .exceptionHandling(exceptions -> exceptions
+//                        .accessDeniedPage("/access-denied")
+//                );
         return http.build();
     }
 
