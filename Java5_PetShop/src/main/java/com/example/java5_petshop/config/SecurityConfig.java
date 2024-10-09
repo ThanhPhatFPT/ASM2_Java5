@@ -16,27 +16,21 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/css/**", "/js/**", "/").permitAll()
-                        .requestMatchers("/register", "/login").not().authenticated()
-
-//                        .requestMatchers("/category/**", "/product/update/**", "/product/create",
-//                                "/product/delete/**", "/product").hasRole("ADMIN")
-                        .requestMatchers("/product/view/**").hasAnyRole("User", "Admin")
-                        .anyRequest().authenticated()
+                        .requestMatchers("/css/**", "/js/**", "/").permitAll() // Static resources and home page allowed
+                        .requestMatchers("/register", "/login").not().authenticated() // Registration and login for unauthenticated users only
+                        .requestMatchers("/product/view/**").hasAnyRole("USER", "ADMIN") // Allow USER and ADMIN roles to view products
+                        .anyRequest().authenticated() // All other requests require authentication
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/", true)
-                        .permitAll()
+                        .loginPage("/login") // Custom login page
+                        .defaultSuccessUrl("/", true) // Redirect to home after successful login
+                        .permitAll() // Allow everyone to access the login page
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
-                        .permitAll()
+                        .logoutUrl("/logout") // Custom logout URL
+                        .logoutSuccessUrl("/") // Redirect to home after logout
+                        .permitAll() // Allow everyone to access the logout
                 );
-//                .exceptionHandling(exceptions -> exceptions
-//                        .accessDeniedPage("/access-denied")
-//                );
         return http.build();
     }
 

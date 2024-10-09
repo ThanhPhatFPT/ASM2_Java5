@@ -35,16 +35,16 @@ public class AuthController {
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") User user, Model model) {
         // Assign the default role to the user (e.g., "USER")
-        Role userRole = new Role();
-        userRole.setRoleName("USER");
+        Long roleId = 2L; // Assuming 2 is the ID for the "USER" role. Replace with your actual role ID.
 
         // Save the user with the assigned role
-        userService.saveUser(user, userRole);
+        userService.saveUser(user, roleId);
 
-        // Optionally add success message
+        // Optionally add a success message
         model.addAttribute("successMessage", "Registration successful!");
 
-
+        // Redirect to the login page after registration
         return "redirect:/login";
     }
+
 }
